@@ -22,7 +22,7 @@ class StationStatus {
 }
 
 var feeds: Feed[] = new Array();
-var bikeShares: BikeShare[] = new Array();
+export var bikeShares: BikeShare[] = new Array();
 
 class Feed {
     constructor(public url, public name) {
@@ -31,7 +31,7 @@ class Feed {
 
 
 // Startup function
-function InitBikeShare() {
+export function InitBikeShare() {
     //var el = document.getElementById("test");
     //el.innerHTML = "test text"
     var xmlhttp = new XMLHttpRequest();
@@ -151,13 +151,9 @@ function PrintPricingPlans(bikeShare: BikeShare) {
 function PrintStations(bikeShare: BikeShare) {
     bikeShare.stations.forEach(function (station) {
         console.log("Station: " + station.stationInformation.name + "\nAddress: " + station.stationInformation.address);
-        
+
         var status = station.stationStatus;
         console.log("Bikes Available: " + status.num_bikes_available + "\nDocks Available: " + status.num_docks_available + "\nRenting: " + (status.is_renting == 1 ? "Yes" : "No"));
     })
 }
 
-function DisplayStation() {
-    document.getElementById("myDiv").innerText = bikeShares[0].name;
-}
-    
