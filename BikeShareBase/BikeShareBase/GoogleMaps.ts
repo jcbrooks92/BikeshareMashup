@@ -55,46 +55,106 @@ export function initMap() {                             //create map object
 }*/
 
 function mapMarker(markerLabel, markerLocation, map, stationName, station: BS.Station) {
+
+    var avail = station.stationStatus.num_bikes_available;
+    var docks = station.stationStatus.num_docks_available;
+    var total = avail + docks;
+
+    if (station.stationStatus.is_renting != 1) {
+        var image = './images/bike-icon-grey.png';
+    } else if (avail < 3) {
+        var image = './images/bike-icon-red.png';
+    } else if (avail <= 5) {
+        var image = './images/bike-icon-yellow.png';
+    } else {
+        var image = './images/bike-icon-green.png';
+    }
+
+
     var marker = new google.maps.Marker({
         position: markerLocation,
         map: map,
-        title: stationName
+        title: stationName,
+        icon: image
+    });
+
+    marker.addListener('dblclick', function () {
+        var m: google.maps.Map = map;
+        var pos: google.maps.LatLng = markerLocation;
+        m.setCenter(new google.maps.LatLng(Number(pos.lat), Number(pos.lng)));
+        m.setZoom(m.getZoom() + 1);
     });
 
     marker.addListener('click', function () {  //listen on the button click to make the call to the station name
         var m: google.maps.Map = map;
         var pos: google.maps.LatLng = markerLocation;
-        m.setCenter(new google.maps.LatLng(Number(pos.lat), Number(pos.lng)));
-        m.setZoom(16);
 
         var dataContainer: HTMLElement = document.getElementById("data");
         dataContainer.innerHTML = "";
 
         var header: HTMLElement = document.createElement("h3");
+        header.setAttribute("class", "col-md-offset-1");
         header.innerText = stationName;
         dataContainer.appendChild(header);
 
         var subHeading: HTMLElement = document.createElement("div");
-        subHeading.setAttribute("class", "col-md-12");
+        subHeading.setAttribute("class", "col-md-offset-1");
         dataContainer.appendChild(subHeading);
 
         var subHeadingText: HTMLElement = document.createElement("h4");
         subHeadingText.innerText = station.stationInformation.address;
         subHeading.appendChild(subHeadingText);
 
-        var row: HTMLElement = document.createElement("div");
-        row.setAttribute("class", "row-fluid");
-        subHeading.appendChild(row);
+        var columnLeft: HTMLElement = document.createElement("span");
+        columnLeft.setAttribute("class", "col-md-6 col-md-offset-1 h3 ");
+        columnLeft.innerText = "Bikes: ";
+        dataContainer.appendChild(columnLeft);
 
-        var columnLeft: HTMLElement = document.createElement("div");
-        columnLeft.setAttribute("class", "col-md-6");
-        columnLeft.innerText = station.stationStatus.num_bikes_available;
-        row.appendChild(columnLeft);
+        var col;
+        if (avail < 3) {
+            col = "rgb(187, 0, 0)";
+        } else if (avail <= 5) {
+            col = "rgb(216, 226, 91)";
+        } else {
+            col = "green";
+        }
 
-        var columnRight: HTMLElement = document.createElement("div");
-        columnRight.setAttribute("class", "col-md-6");
-        columnRight.innerText = station.stationStatus.num_docks_available;
-        row.appendChild(columnRight);
+        var columnLeftText: HTMLElement = document.createElement("span");
+        columnLeftText.setAttribute("class", "badge h2");
+        columnLeftText.style.backgroundColor = col;
+        columnLeftText.innerText = station.stationStatus.num_bikes_available;
+        columnLeft.appendChild(columnLeftText);
+
+        var columnRight: HTMLElement = document.createElement("span");
+        columnRight.setAttribute("class", "col-md-5 h3");
+        columnRight.innerText = "Docks: ";
+        dataContainer.appendChild(columnRight);
+
+        var col;
+        if (docks < 3) {
+            col = "rgb(187, 0, 0)";
+        } else if (docks <= 5) {
+            col = "rgb(216, 226, 91)";
+        } else {
+            col = "green";
+        }
+
+        var columnRightText: HTMLElement = document.createElement("span");
+        columnRightText.setAttribute("class", "badge h2");
+        columnRightText.style.backgroundColor = col;
+        columnRightText.innerText = station.stationStatus.num_docks_available;
+        columnRight.appendChild(columnRightText);
+
+        var renting: HTMLElement = document.createElement("span");
+        renting.setAttribute("class", "col-md-6 col-md-offset-1 h3 ");
+        renting.innerText = station.stationStatus.is_renting == 1 && avail >= 1 ? "Rentals available" : "Rentals unavailable";
+        dataContainer.appendChild(renting);
+
+        var docking: HTMLElement = document.createElement("span");
+        docking.setAttribute("class", "col-md-6 col-md-offset-1 h3 ");
+        docking.innerText = station.stationStatus.is_returning == 1 && docks >= 1 ? "Docks available" : "Docks unavailable";
+        dataContainer.appendChild(docking);
+
     })
 }
 
