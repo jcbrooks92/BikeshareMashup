@@ -1,23 +1,30 @@
-var Greeter = (function () {
-    function Greeter(element) {
-        this.element = element;
-        this.element.innerHTML += "The time is: ";
-        this.span = document.createElement('span');
-        this.element.appendChild(this.span);
-        this.span.innerText = new Date().toUTCString();
+var Member = (function () {
+    function Member() {
     }
-    Greeter.prototype.start = function () {
-        var _this = this;
-        this.timerToken = setInterval(function () { return _this.span.innerHTML = new Date().toUTCString(); }, 500);
+    Member.prototype.deserialize = function (input) {
+        this.id = input.id;
+        return this;
     };
-    Greeter.prototype.stop = function () {
-        clearTimeout(this.timerToken);
-    };
-    return Greeter;
+    return Member;
 }());
-window.onload = function () {
-    var el = document.getElementById('content');
-    var greeter = new Greeter(el);
-    greeter.start();
+var ExampleClass = (function () {
+    function ExampleClass() {
+    }
+    ExampleClass.prototype.deserialize = function (input) {
+        this.mainId = input.mainId;
+        this.firstMember = new Member().deserialize(input.firstMember);
+        this.secondMember = new Member().deserialize(input.secondMember);
+        return this;
+    };
+    return ExampleClass;
+}());
+var json = {
+    mainId: 42,
+    firstMember: {
+        id: 1337
+    },
+    secondMember: {
+        id: -1
+    }
 };
 //# sourceMappingURL=app.js.map
