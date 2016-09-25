@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="app.css" type="text/css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyaademjdvfr7mnfCBMidAbHNGKuc4ypo&callback=initMap" async defer></script>
     <script data-main="BikeShareView.js"
             type="text/javascript"
             src="Scripts/require.js"></script>
@@ -18,76 +19,6 @@
         <div id="map" class="col-md-9"> Google Map </div>
     </div>
 
-    <script>
-        function initMap() {                             //create map object
-            var myGeoLocationLabel = "M";
-            var stationName = "Me";
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 46.8772, lng: -96.7898 },
-                zoom: 14
-            });
-            var infoWindow = new google.maps.InfoWindow({ map: map });
-
-            // Try HTML5 geolocation.
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    var pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-
-                    markerTitle = mapMarker(myGeoLocationLabel, pos, map, stationName);
-                    markerTitle = mapMarker("sexy", { lat: 46.8772, lng: -96.7898 }, map, "BS");
-
-                    map.setCenter(pos);
-                }, function () {
-                    handleLocationError(true, infoWindow, map.getCenter());
-                });
-            } else {
-                // Browser doesn't support Geolocation
-                handleLocationError(false, infoWindow, map.getCenter());
-            }
-
-            
-        }
-
-        /*function bikeStationMark(map) {                                   //add Bike markers
-            for (var i = 0; Bikeshare[i].Station != null; i++) {
-                mapMarker(BikeShare[i].Station.StationInformation.name,{ )
-            }
-
-        }*/
-
-        function mapMarker(markerLabel, markerLocation, map, stationName) {
-            var marker = new google.maps.Marker({
-                position: markerLocation,
-                map: map,
-                label: markerLabel,
-                title: stationName
-            });
-            
-            marker.addListener('click', function () {  //listen on the button click to make the call to the station name
-                var stationName = alert(marker.getTitle());
-                
-               /* for (var i=0; Bikeshare[i].Station != null; i++) {
-                    if (BikeShare[i].Station.StationInformation.name == stationName) {              //code to print information in left hand column 
-                        
-                    }
-                    
-                }*/
-                
-            })
-        }
-
-        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-            infoWindow.setPosition(pos);
-            infoWindow.setContent(browserHasGeolocation ?
-                                  'Error: The Geolocation service failed.' :
-                                  'Error: Your browser doesn\'t support geolocation.');
-        }
-
-
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyaademjdvfr7mnfCBMidAbHNGKuc4ypo&callback=initMap" async defer></script>
+    
 </body>
 </html>

@@ -40,6 +40,8 @@
   <ItemGroup>
     <TypeScriptCompile Include="BikeShareBuild.ts" />
     <TypeScriptCompile Include="BikeShareView.ts" />
+    <TypeScriptCompile Include="GoogleMaps.ts" />
+    <TypeScriptCompile Include="typings\google.maps.d.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
