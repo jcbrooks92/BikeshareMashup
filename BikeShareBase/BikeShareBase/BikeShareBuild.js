@@ -73,7 +73,7 @@ define(["require", "exports"], function (require, exports) {
                 ParseDataFeed(results);
             }
         };
-        xmlhttp.open("GET", url, true);
+        xmlhttp.open("GET", url, false);
         xmlhttp.send();
     }
     exports.InitBikeShare = InitBikeShare;
@@ -151,7 +151,7 @@ define(["require", "exports"], function (require, exports) {
                 buildClasses(feed, results);
             }
         };
-        xmlhttp.open("GET", feed.url, true);
+        xmlhttp.open("GET", feed.url, false);
         xmlhttp.send();
     }
     function PrintBikeShares() {

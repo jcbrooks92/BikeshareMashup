@@ -24,7 +24,7 @@ define(["require", "exports", './BikeShareBuild'], function (require, exports, B
                 }, 2000);
                 BS.bikeShares[0].stations.forEach(function (station) {
                     var info = station.stationInformation;
-                    mapMarker(info.name, { lat: info.lat, lng: info.lon }, map, info.name);
+                    mapMarker(info.name, { lat: info.lat, lng: info.lon }, map, info.name, station);
                 });
                 var myPosition = new google.maps.LatLng(pos.lat, pos.lng);
                 map.setCenter(myPosition);
@@ -44,14 +44,39 @@ define(["require", "exports", './BikeShareBuild'], function (require, exports, B
         }
     
     }*/
-    function mapMarker(markerLabel, markerLocation, map, stationName) {
+    function mapMarker(markerLabel, markerLocation, map, stationName, station) {
         var marker = new google.maps.Marker({
             position: markerLocation,
             map: map,
             title: stationName
         });
         marker.addListener('click', function () {
-            document.getElementById("myDiv").innerHTML = "<p> Station: " + stationName + "</p>";
+            var m = map;
+            var pos = markerLocation;
+            m.setCenter(new google.maps.LatLng(Number(pos.lat), Number(pos.lng)));
+            m.setZoom(16);
+            var dataContainer = document.getElementById("data");
+            dataContainer.innerHTML = "";
+            var header = document.createElement("h3");
+            header.innerText = stationName;
+            dataContainer.appendChild(header);
+            var subHeading = document.createElement("div");
+            subHeading.setAttribute("class", "col-md-12");
+            dataContainer.appendChild(subHeading);
+            var subHeadingText = document.createElement("h4");
+            subHeadingText.innerText = station.stationInformation.address;
+            subHeading.appendChild(subHeadingText);
+            var row = document.createElement("div");
+            row.setAttribute("class", "row-fluid");
+            subHeading.appendChild(row);
+            var columnLeft = document.createElement("div");
+            columnLeft.setAttribute("class", "col-md-6");
+            columnLeft.innerText = station.stationStatus.num_bikes_available;
+            row.appendChild(columnLeft);
+            var columnRight = document.createElement("div");
+            columnRight.setAttribute("class", "col-md-6");
+            columnRight.innerText = station.stationStatus.num_docks_available;
+            row.appendChild(columnRight);
         });
     }
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {

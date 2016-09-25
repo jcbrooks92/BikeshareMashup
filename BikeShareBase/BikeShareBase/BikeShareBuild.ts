@@ -44,7 +44,7 @@ export function InitBikeShare() {
         }
     };
 
-    xmlhttp.open("GET", url, true);
+    xmlhttp.open("GET", url, false);
     xmlhttp.send();
 
 };
@@ -129,7 +129,7 @@ function GetDataFeed(feed: Feed) {
             buildClasses(feed, results);
         }
     };
-    xmlhttp.open("GET", feed.url, true);
+    xmlhttp.open("GET", feed.url, false);
     xmlhttp.send();
 
 }

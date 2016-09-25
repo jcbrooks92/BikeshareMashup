@@ -13,13 +13,15 @@ html, body {
 }
 
 #map {
-    height: 100%;
+    position: absolute;
+    margin-left: 320px;
+    height: 100% !important;
 }
 
 #data {
 }
 
-.row {
+
+.container-fluid{
     height: 100%;
 }
-
