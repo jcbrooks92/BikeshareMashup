@@ -103,6 +103,7 @@ function mapMarker(markerLabel, markerLocation, map, stationName, station: BS.St
 
         var subHeadingText: HTMLElement = document.createElement("h4");
         subHeadingText.innerText = station.stationInformation.address;
+        subHeading.style.marginBottom = '35px';
         subHeading.appendChild(subHeadingText);
 
         var columnLeft: HTMLElement = document.createElement("span");
@@ -148,20 +149,26 @@ function mapMarker(markerLabel, markerLocation, map, stationName, station: BS.St
         var renting: HTMLElement = document.createElement("span");
         renting.setAttribute("class", "col-md-6 col-md-offset-1 h3 ");
         renting.innerText = station.stationStatus.is_renting == 1 && avail >= 1 ? "Rentals available" : "Rentals unavailable";
+        renting.style.zIndex = '999';
+        renting.style.fontStyle = 'italic';
         dataContainer.appendChild(renting);
 
         var docking: HTMLElement = document.createElement("span");
-        docking.setAttribute("class", "col-md-6 col-md-offset-1 h3 ");
+        docking.setAttribute("class", "col-md-6 col-md-offset-1 h3");
         docking.innerText = station.stationStatus.is_returning == 1 && docks >= 1 ? "Docks available" : "Docks unavailable";
+        docking.style.zIndex = '999';
+        docking.style.fontStyle = 'italic';
+        docking.style.marginBottom = '50px';
         dataContainer.appendChild(docking);
 
-        var ChartTitle: HTMLElement = document.createElement("div");
-        ChartTitle.setAttribute("class", "col-md-6 col-md-offset-1 h3 ");
-        ChartTitle.innerText = "Peak Times";
-        ChartTitle.style.marginBottom = '-50px';
-        ChartTitle.style.paddingBottom = '0';
-        ChartTitle.style.zIndex = '999';
-        dataContainer.appendChild(ChartTitle);
+        var chartTitle: HTMLElement = document.createElement("div");
+        chartTitle.setAttribute("class", "col-md-6 col-sm-offset-1 h3 ");
+        chartTitle.innerText = "Peak Times";
+   
+        chartTitle.style.marginBottom = '-50px';
+        chartTitle.style.paddingBottom = '0';
+        chartTitle.style.zIndex = '999';
+        dataContainer.appendChild(chartTitle);
 
         drawChart(dataContainer, station);
     })
@@ -184,8 +191,7 @@ function drawChart(parent: HTMLElement, station: BS.Station) {
 
     station.history.forEach(function (e) {
         var eDate = new Date(e.CheckoutDate + " " + e.CheckoutTime);
-        if (eDate.getDay() == d.getDay()) {
-            //&& eDate.getMonth() == d.getMonth()) {
+        if (eDate.getDay() == d.getDay()) {//&& eDate.getMonth() == d.getMonth()) {
             var hour = eDate.getHours();
             if (hour)
                 rentals[hour][0] += 1;
@@ -210,7 +216,8 @@ function drawChart(parent: HTMLElement, station: BS.Station) {
         legend: { position: "none" },
         backgroundColor: '#292929',
         titleTextStyle: {
-            color: '#f8f8f4', fontSize: 16, fontName: 'Segoe UI' },
+            color: '#f8f8f4', fontSize: 16, fontName: 'Segoe UI'
+        },
         hAxis: {
             textStyle: {
                 color: '#f8f8f4'
@@ -230,10 +237,13 @@ function drawChart(parent: HTMLElement, station: BS.Station) {
             },
             gridlines: { color: 'transparent' }
         },
+        tooltip: {trigger: 'none'}
     };
 
     var chartDiv: HTMLElement = document.createElement("chart_div");
-    chartDiv.setAttribute('class', 'col-md-12');
+    chartDiv.setAttribute('class', 'col-md-6');
+    chartDiv.style.marginTop = '-40px';
+    chartDiv.style.paddingTop = '0px';
     var chart = new google.visualization.ColumnChart(chartDiv);
     parent.appendChild(chartDiv);
 
