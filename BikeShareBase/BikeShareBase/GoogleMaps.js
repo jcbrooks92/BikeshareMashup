@@ -1,7 +1,5 @@
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", './BikeShareBuild'], function (require, exports, BS) {
     "use strict";
-    // Must call initMap to start google maps
-    initMap();
     function initMap() {
         var myGeoLocationLabel = "M";
         var stationName = "Me";
@@ -18,8 +16,16 @@ define(["require", "exports"], function (require, exports) {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
-                mapMarker(myGeoLocationLabel, pos, map, stationName);
-                mapMarker("sexy", { lat: 46.8772, lng: -96.7898 }, map, "BS");
+                var checkExist = setInterval(function () {
+                    if (BS.bikeShares[0].stations) {
+                        console.log("Exists!");
+                        clearInterval(checkExist);
+                    }
+                }, 2000);
+                BS.bikeShares[0].stations.forEach(function (station) {
+                    var info = station.stationInformation;
+                    mapMarker(info.name, { lat: info.lat, lng: info.lon }, map, info.name);
+                });
                 var myPosition = new google.maps.LatLng(pos.lat, pos.lng);
                 map.setCenter(myPosition);
             }, function () {
@@ -31,6 +37,7 @@ define(["require", "exports"], function (require, exports) {
             handleLocationError(false, google.maps.InfoWindow, map.getCenter());
         }
     }
+    exports.initMap = initMap;
     /*function bikeStationMark(map) {                                   //add Bike markers
         for (var i = 0; Bikeshare[i].Station != null; i++) {
             mapMarker(BikeShare[i].Station.StationInformation.name,{ )
@@ -44,13 +51,7 @@ define(["require", "exports"], function (require, exports) {
             title: stationName
         });
         marker.addListener('click', function () {
-            var stationName = alert(marker.getTitle());
-            /* for (var i=0; Bikeshare[i].Station != null; i++) {
-                 if (BikeShare[i].Station.StationInformation.name == stationName) {              //code to print information in left hand column
-                     
-                 }
-                 
-             }*/
+            document.getElementById("myDiv").innerHTML = "<p> Station: " + stationName + "</p>";
         });
     }
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {

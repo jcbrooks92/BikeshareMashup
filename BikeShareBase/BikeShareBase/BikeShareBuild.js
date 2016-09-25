@@ -14,6 +14,7 @@ define(["require", "exports"], function (require, exports) {
             this.feeds = new Array();
         }
     }
+    exports.BikeShare = BikeShare;
     class PricingPlans {
         constructor(price, is_taxable, url, description, currency, name, plan_id) {
             this.price = price;
@@ -25,8 +26,10 @@ define(["require", "exports"], function (require, exports) {
             this.plan_id = plan_id;
         }
     }
+    exports.PricingPlans = PricingPlans;
     class Station {
     }
+    exports.Station = Station;
     class StationInformation {
         constructor(lon, lat, address, name, station_id) {
             this.lon = lon;
@@ -36,6 +39,7 @@ define(["require", "exports"], function (require, exports) {
             this.station_id = station_id;
         }
     }
+    exports.StationInformation = StationInformation;
     class StationStatus {
         constructor(station_id, num_bikes_available, num_docks_available, is_installed, is_renting, is_returning, last_reported) {
             this.station_id = station_id;
@@ -47,6 +51,7 @@ define(["require", "exports"], function (require, exports) {
             this.last_reported = last_reported;
         }
     }
+    exports.StationStatus = StationStatus;
     var feeds = new Array();
     exports.bikeShares = new Array();
     class Feed {
@@ -55,6 +60,7 @@ define(["require", "exports"], function (require, exports) {
             this.name = name;
         }
     }
+    exports.Feed = Feed;
     // Startup function
     function InitBikeShare() {
         //var el = document.getElementById("test");

@@ -4,6 +4,9 @@ import gMaps = require('./GoogleMaps');
 gMaps.forceImport;
 BS.InitBikeShare();
 
+
+window.setTimeout(gMaps.initMap(), 2000);
+
 /*var e = document.getElementById('myButton')
 e.onclick = function () {
     DisplayStation();

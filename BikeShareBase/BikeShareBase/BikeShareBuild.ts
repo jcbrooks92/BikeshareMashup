@@ -1,4 +1,4 @@
-﻿class BikeShare {
+﻿export class BikeShare {
     stations: Station[] = new Array();
     pricingPlans: PricingPlans[] = new Array();
     feeds: Feed[] = new Array();
@@ -6,25 +6,25 @@
     constructor(public system_id, public name, public langauge, public url, public phone_number, public email, public timezone) { }
 }
 
-class PricingPlans {
+export class PricingPlans {
     constructor(public price, public is_taxable, public url, public description, public currency, public name, public plan_id) { }
 }
 
-class Station {
+export class Station {
     stationInformation: StationInformation;
     stationStatus: StationStatus;
 }
-class StationInformation {
+export class StationInformation {
     constructor(public lon, public lat, public address, public name, public station_id) { }
 }
-class StationStatus {
+export class StationStatus {
     constructor(public station_id, public num_bikes_available, public num_docks_available, public is_installed, public is_renting, public is_returning, public last_reported) { }
 }
 
 var feeds: Feed[] = new Array();
 export var bikeShares: BikeShare[] = new Array();
 
-class Feed {
+export class Feed {
     constructor(public url, public name) {
     }
 }

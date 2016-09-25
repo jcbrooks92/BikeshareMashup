@@ -1,10 +1,9 @@
 ﻿import BS = require('./BikeShareBuild');
 // Must call initMap to start google maps
-initMap();
 
 export var forceImport;
 
-function initMap() {                             //create map object
+export function initMap() {                             //create map object
     var myGeoLocationLabel = "M";
     var stationName = "Me";
     var map: google.maps.Map = new google.maps.Map(document.getElementById('map'));
@@ -23,8 +22,17 @@ function initMap() {                             //create map object
                 lng: position.coords.longitude
             };
 
-            mapMarker(myGeoLocationLabel, pos, map, stationName);
-            mapMarker("sexy", { lat: 46.8772, lng: -96.7898 }, map, "BS");
+            var checkExist = setInterval(function () {
+                if (BS.bikeShares[0].stations) {
+                    console.log("Exists!");
+                    clearInterval(checkExist);
+                }
+            }, 2000);
+
+            BS.bikeShares[0].stations.forEach(function (station) {
+                var info: BS.StationInformation = station.stationInformation;
+                mapMarker(info.name, { lat:info.lat, lng:info.lon }, map, info.name);
+            })
 
             var myPosition = new google.maps.LatLng(pos.lat, pos.lng);
             map.setCenter(myPosition);
@@ -54,15 +62,7 @@ function mapMarker(markerLabel, markerLocation, map, stationName) {
     });
 
     marker.addListener('click', function () {  //listen on the button click to make the call to the station name
-        var stationName = alert(marker.getTitle());
-
-        /* for (var i=0; Bikeshare[i].Station != null; i++) {
-             if (BikeShare[i].Station.StationInformation.name == stationName) {              //code to print information in left hand column 
-                 
-             }
-             
-         }*/
-
+        document.getElementById("myDiv").innerHTML = "<p> Station: " + stationName + "</p>";
     })
 }
 

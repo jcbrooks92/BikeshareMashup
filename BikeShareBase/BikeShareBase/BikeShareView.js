@@ -2,6 +2,7 @@ define(["require", "exports", './BikeShareBuild', './GoogleMaps'], function (req
     "use strict";
     gMaps.forceImport;
     BS.InitBikeShare();
+    window.setTimeout(gMaps.initMap(), 2000);
 });
 /*var e = document.getElementById('myButton')
 e.onclick = function () {
