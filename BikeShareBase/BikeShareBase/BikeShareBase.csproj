@@ -49,6 +49,7 @@
     <TypeScriptCompile Include="GoogleMaps.ts" />
     <TypeScriptCompile Include="Scripts\typings\d3\d3.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\d3\plugins\d3.superformula.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\google.visualization\google.visualization.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="typings\google.maps.d.ts" />
   </ItemGroup>

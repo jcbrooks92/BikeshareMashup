@@ -133,7 +133,53 @@ define(["require", "exports", './BikeShareBuild'], function (require, exports, B
             docking.setAttribute("class", "col-md-6 col-md-offset-1 h3 ");
             docking.innerText = station.stationStatus.is_returning == 1 && docks >= 1 ? "Docks available" : "Docks unavailable";
             dataContainer.appendChild(docking);
+            drawChart(dataContainer);
         });
+    }
+    function drawChart(parent) {
+        var data = new google.visualization.DataTable();
+        data.addColumn('timeofday', 'Time of Day');
+        data.addColumn('number', 'Emails Received');
+        data.addRows([
+            [[8, 30, 45], 5],
+            [[9, 0, 0], 10],
+            [[10, 0, 0, 0], 12],
+            [[10, 45, 0, 0], 13],
+            [[11, 0, 0, 0], 15],
+            [[12, 15, 45, 0], 20],
+            [[13, 0, 0, 0], 22],
+            [[14, 30, 0, 0], 25],
+            [[15, 12, 0, 0], 30],
+            [[16, 45, 0], 32],
+            [[16, 59, 0], 42]
+        ]);
+        var options = {
+            title: 'Bike Availability by Time',
+            titlePosition: 'none',
+            height: 300,
+            width: 425,
+            bar: { groupWidth: "400%" },
+            legend: { position: "none" },
+            backgroundColor: '#292929',
+            titleTextStyle: { color: '#f8f8f4' },
+            hAxis: {
+                textStyle: {
+                    color: '#f8f8f4'
+                },
+                gridlines: { color: 'transparent' }
+            },
+            vAxis: {
+                textStyle: {
+                    color: '#f8f8f4'
+                },
+                gridlines: { color: 'transparent' }
+            }
+        };
+        var chartDiv = document.createElement("chart_div");
+        chartDiv.setAttribute('class', 'col-md-12');
+        var chart = new google.visualization.ColumnChart(chartDiv);
+        parent.appendChild(chartDiv);
+        chart.draw(data, options);
     }
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
