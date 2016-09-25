@@ -13,12 +13,16 @@ export class PricingPlans {
 export class Station {
     stationInformation: StationInformation;
     stationStatus: StationStatus;
+    history: BikeShareHistory[] = new Array();
 }
 export class StationInformation {
     constructor(public lon, public lat, public address, public name, public station_id) { }
 }
 export class StationStatus {
     constructor(public station_id, public num_bikes_available, public num_docks_available, public is_installed, public is_renting, public is_returning, public last_reported) { }
+}
+export class BikeShareHistory {
+    constructor(public CheckoutDate, public CheckoutStation, public CheckoutTime, public ReturnDate, public ReturnStation, public ReturnTime) { }
 }
 
 var feeds: Feed[] = new Array();

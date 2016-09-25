@@ -155,29 +155,39 @@ function mapMarker(markerLabel, markerLocation, map, stationName, station: BS.St
         docking.innerText = station.stationStatus.is_returning == 1 && docks >= 1 ? "Docks available" : "Docks unavailable";
         dataContainer.appendChild(docking);
 
-        drawChart(dataContainer);
+        drawChart(dataContainer, station);
     })
 }
 
-function drawChart(parent: HTMLElement) {
+function drawChart(parent: HTMLElement, station: BS.Station) {
 
     var data = new google.visualization.DataTable();
     data.addColumn('timeofday', 'Time of Day');
     data.addColumn('number', 'Emails Received');
 
-    data.addRows([
-        [[8, 30, 45], 5],
-        [[9, 0, 0], 10],
-        [[10, 0, 0, 0], 12],
-        [[10, 45, 0, 0], 13],
-        [[11, 0, 0, 0], 15],
-        [[12, 15, 45, 0], 20],
-        [[13, 0, 0, 0], 22],
-        [[14, 30, 0, 0], 25],
-        [[15, 12, 0, 0], 30],
-        [[16, 45, 0], 32],
-        [[16, 59, 0], 42]
-    ]);
+    //[[8, 30, 45], 5],
+    var hours = new Array(24);
+
+
+    for (var i = 0; i < hours.length; i++) {
+        hours[i] = new Array();
+        hours[i].push(0);
+    }
+
+    var d = new Date();
+
+    station.history.forEach(function (e) {
+        var eDate = new Date(e.CheckoutDate);
+        if (eDate.getDay() == d.getDay()){ //&& eDate.getMonth() == d.getMonth()) {
+            hours[Number(e.CheckoutTime[0])][0] += 1;
+        }
+    })
+
+    for (var i = 0; i < hours.length; i++) {
+        console.log(hours[i][0]);
+        data.addRow([[i, 0, 0], hours[i][0]]);
+    }
+
 
     var options: google.visualization.ColumnChartOptions = {
         title: 'Bike Availability by Time',
@@ -196,7 +206,7 @@ function drawChart(parent: HTMLElement) {
         },
         vAxis: {
             textStyle: {
-                color: '#f8f8f4'
+                color: 'transparent'
             },
             gridlines: { color: 'transparent' }
         }
@@ -206,7 +216,7 @@ function drawChart(parent: HTMLElement) {
     var chartDiv: HTMLElement = document.createElement("chart_div");
     chartDiv.setAttribute('class', 'col-md-12');
     var chart = new google.visualization.ColumnChart(chartDiv);
-    parent.appendChild(chartDiv); 
+    parent.appendChild(chartDiv);
 
     chart.draw(data, options);
 }

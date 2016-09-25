@@ -28,6 +28,9 @@ define(["require", "exports"], function (require, exports) {
     }
     exports.PricingPlans = PricingPlans;
     class Station {
+        constructor() {
+            this.history = new Array();
+        }
     }
     exports.Station = Station;
     class StationInformation {
@@ -52,6 +55,17 @@ define(["require", "exports"], function (require, exports) {
         }
     }
     exports.StationStatus = StationStatus;
+    class BikeShareHistory {
+        constructor(CheckoutDate, CheckoutStation, CheckoutTime, ReturnDate, ReturnStation, ReturnTime) {
+            this.CheckoutDate = CheckoutDate;
+            this.CheckoutStation = CheckoutStation;
+            this.CheckoutTime = CheckoutTime;
+            this.ReturnDate = ReturnDate;
+            this.ReturnStation = ReturnStation;
+            this.ReturnTime = ReturnTime;
+        }
+    }
+    exports.BikeShareHistory = BikeShareHistory;
     var feeds = new Array();
     exports.bikeShares = new Array();
     class Feed {

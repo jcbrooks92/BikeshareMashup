@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="Data\season-data-2016.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -47,6 +48,7 @@
     <TypeScriptCompile Include="BikeShareBuild.ts" />
     <TypeScriptCompile Include="BikeShareView.ts" />
     <TypeScriptCompile Include="GoogleMaps.ts" />
+    <TypeScriptCompile Include="PastData.ts" />
     <TypeScriptCompile Include="Scripts\typings\d3\d3.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\d3\plugins\d3.superformula.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\google.visualization\google.visualization.d.ts" />

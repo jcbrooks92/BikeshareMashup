@@ -1,9 +1,9 @@
-define(["require", "exports", './BikeShareBuild', './GoogleMaps'], function (require, exports, BS, gMaps) {
+define(["require", "exports", './BikeShareBuild', './GoogleMaps', './PastData'], function (require, exports, BS, gMaps, pastData) {
     "use strict";
-    /// <reference path="jquery.d.ts" />
     gMaps.forceImport;
     BS.InitBikeShare();
     window.setTimeout(gMaps.initMap(), 2000);
     google.charts.load('current', { 'packages': ['corechart'] });
+    pastData.forceImport;
 });
 //# sourceMappingURL=BikeShareView.js.map
