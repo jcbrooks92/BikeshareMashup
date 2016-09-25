@@ -156,3 +156,8 @@ function PrintStations(bikeShare: BikeShare) {
         console.log("Bikes Available: " + status.num_bikes_available + "\nDocks Available: " + status.num_docks_available + "\nRenting: " + (status.is_renting == 1 ? "Yes" : "No"));
     })
 }
+
+function DisplayStation() {
+    document.getElementById("myDiv").innerText = bikeShares[0].name;
+}
+    
