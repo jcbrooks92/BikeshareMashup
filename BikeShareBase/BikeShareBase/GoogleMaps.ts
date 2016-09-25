@@ -163,30 +163,35 @@ function drawChart(parent: HTMLElement, station: BS.Station) {
 
     var data = new google.visualization.DataTable();
     data.addColumn('timeofday', 'Time of Day');
-    data.addColumn('number', 'Emails Received');
+    data.addColumn('number', 'Bikes Rented');
 
     //[[8, 30, 45], 5],
-    var hours = new Array(24);
-
-
-    for (var i = 0; i < hours.length; i++) {
-        hours[i] = new Array();
-        hours[i].push(0);
+    var rentals = new Array();
+    var d: Date = new Date();
+    // 30 min increments
+    for (var i = 0; i < 24; i++) {
+        rentals[i] = new Array();
+        rentals[i].push(0);
     }
 
-    var d = new Date();
-
     station.history.forEach(function (e) {
-        var eDate = new Date(e.CheckoutDate);
-        if (eDate.getDay() == d.getDay()){ //&& eDate.getMonth() == d.getMonth()) {
-            hours[Number(e.CheckoutTime[0])][0] += 1;
+        var eDate = new Date(e.CheckoutDate + " " + e.CheckoutTime);
+        if (eDate.getDay() == d.getDay()) {
+            //&& eDate.getMonth() == d.getMonth()) {
+            var hour = eDate.getHours();
+            if (hour)
+                rentals[hour][0] += 1;
         }
     })
 
-    for (var i = 0; i < hours.length; i++) {
-        console.log(hours[i][0]);
-        data.addRow([[i, 0, 0], hours[i][0]]);
+
+    for (var i = 0; i < rentals.length; i++) {
+        console.log(rentals[i][0]);
+        var d = new Date(rentals[i]);
+
+        data.addRow([[i, 0, 0], rentals[i][0]]);
     }
+    console.log(rentals.length);
 
 
     var options: google.visualization.ColumnChartOptions = {
@@ -194,7 +199,6 @@ function drawChart(parent: HTMLElement, station: BS.Station) {
         titlePosition: 'none',
         height: 300,
         width: 425,
-        bar: { groupWidth: "400%" },
         legend: { position: "none" },
         backgroundColor: '#292929',
         titleTextStyle: { color: '#f8f8f4' },
@@ -202,14 +206,21 @@ function drawChart(parent: HTMLElement, station: BS.Station) {
             textStyle: {
                 color: '#f8f8f4'
             },
-            gridlines: { color: 'transparent' }
+            gridlines: { color: 'transparent' },
+            format: 'h:mm a',
+            viewWindow: {
+                min: [7, 30, 0],
+                max: [17, 30, 0]
+            }
+
         },
         vAxis: {
             textStyle: {
                 color: 'transparent'
             },
             gridlines: { color: 'transparent' }
-        }
+        },
+
 
     };
 

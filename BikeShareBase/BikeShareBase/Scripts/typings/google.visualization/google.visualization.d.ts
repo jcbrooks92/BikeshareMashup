@@ -443,8 +443,8 @@ declare namespace google {
         }
 
         export interface ChartViewWindow {
-            max?: number;
-            min?: number;
+            max?: number[];
+            min?: number[];
         }
 
         export interface ChartTooltip {
