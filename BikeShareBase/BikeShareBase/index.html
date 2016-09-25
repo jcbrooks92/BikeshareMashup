@@ -21,6 +21,7 @@
     <script>
         function initMap() {                             //create map object
             var myGeoLocationLabel = "M";
+            var stationName = "Me";
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: { lat: 46.8772, lng: -96.7898 },
                 zoom: 14
@@ -35,7 +36,8 @@
                         lng: position.coords.longitude
                     };
 
-                    mapMarker(myGeoLocationLabel, pos, map);
+                    markerTitle = mapMarker(myGeoLocationLabel, pos, map, stationName);
+                    markerTitle = mapMarker("sexy", { lat: 46.8772, lng: -96.7898 }, map, "BS");
 
                     map.setCenter(pos);
                 }, function () {
@@ -45,15 +47,36 @@
                 // Browser doesn't support Geolocation
                 handleLocationError(false, infoWindow, map.getCenter());
             }
+
+            
         }
 
-        function mapMarker(markerLabel, markerLocation, map) {
-            var testmarker = new google.maps.Marker({
+        /*function bikeStationMark(map) {                                   //add Bike markers
+            for (var i = 0; Bikeshare[i].Station != null; i++) {
+                mapMarker(BikeShare[i].Station.StationInformation.name,{ )
+            }
+
+        }*/
+
+        function mapMarker(markerLabel, markerLocation, map, stationName) {
+            var marker = new google.maps.Marker({
                 position: markerLocation,
                 map: map,
-                label: markerLabel
+                label: markerLabel,
+                title: stationName
             });
-
+            
+            marker.addListener('click', function () {  //listen on the button click to make the call to the station name
+                var stationName = alert(marker.getTitle());
+                
+               /* for (var i=0; Bikeshare[i].Station != null; i++) {
+                    if (BikeShare[i].Station.StationInformation.name == stationName) {              //code to print information in left hand column 
+                        
+                    }
+                    
+                }*/
+                
+            })
         }
 
         function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -62,6 +85,7 @@
                                   'Error: The Geolocation service failed.' :
                                   'Error: Your browser doesn\'t support geolocation.');
         }
+
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyaademjdvfr7mnfCBMidAbHNGKuc4ypo&callback=initMap" async defer></script>
