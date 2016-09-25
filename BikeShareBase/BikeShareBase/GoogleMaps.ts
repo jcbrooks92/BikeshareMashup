@@ -155,6 +155,14 @@ function mapMarker(markerLabel, markerLocation, map, stationName, station: BS.St
         docking.innerText = station.stationStatus.is_returning == 1 && docks >= 1 ? "Docks available" : "Docks unavailable";
         dataContainer.appendChild(docking);
 
+        var ChartTitle: HTMLElement = document.createElement("div");
+        ChartTitle.setAttribute("class", "col-md-6 col-md-offset-1 h3 ");
+        ChartTitle.innerText = "Peak Times";
+        ChartTitle.style.marginBottom = '-50px';
+        ChartTitle.style.paddingBottom = '0';
+        ChartTitle.style.zIndex = '999';
+        dataContainer.appendChild(ChartTitle);
+
         drawChart(dataContainer, station);
     })
 }
@@ -195,13 +203,14 @@ function drawChart(parent: HTMLElement, station: BS.Station) {
 
 
     var options: google.visualization.ColumnChartOptions = {
-        title: 'Bike Availability by Time',
+        title: 'Peak Times',
         titlePosition: 'none',
         height: 300,
         width: 425,
         legend: { position: "none" },
         backgroundColor: '#292929',
-        titleTextStyle: { color: '#f8f8f4' },
+        titleTextStyle: {
+            color: '#f8f8f4', fontSize: 16, fontName: 'Segoe UI' },
         hAxis: {
             textStyle: {
                 color: '#f8f8f4'
@@ -209,9 +218,10 @@ function drawChart(parent: HTMLElement, station: BS.Station) {
             gridlines: { color: 'transparent' },
             format: 'h:mm a',
             viewWindow: {
-                min: [7, 30, 0],
-                max: [17, 30, 0]
-            }
+                min: [7, 0, 0],
+                max: [24, 0, 0]
+            },
+            viewWindowMode: 'pretty'
 
         },
         vAxis: {
@@ -220,8 +230,6 @@ function drawChart(parent: HTMLElement, station: BS.Station) {
             },
             gridlines: { color: 'transparent' }
         },
-
-
     };
 
     var chartDiv: HTMLElement = document.createElement("chart_div");
